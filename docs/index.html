@@ -3,9 +3,12 @@
     <title>Select Location - Callback HTML</title>
     <meta charset="utf-8">
   	<script src="js/linkparam.js"></script>
-  	  <style type="text/css"> 
+  	<link  type="text/css" href="css/font-awesome.min.css" rel="stylesheet" />
+      <style type="text/css"> 
       body {font-family:verdana, sans-serif;} 
-    </style> 
+      
+      button {background-color:#42c5f4}
+       </style> 
  
   </head>
   <body>
@@ -27,13 +30,15 @@
   	<hr>
   	<!-- next DIV element implements the main CallBack Structure -->
   	<div style="margins:30px">
-   		<b>Geolocation:</b> <input type="string" id="mygeolocation" size="90">
-    	<hr>
    		<b>Call <tt>selectlocation.html</tt> with a HTML form:</b>
     	<form id="mapselector" action="selectlocation.html" method="GET">
     		Callback URL: <input type="string" name="callback" value="index.html">
-    		<input type="submit" value="Select Geolocation">
-    	</form>
+    			<button type="submit">
+    				<i class="fa fa-globe" aria-hidden="true"></i> Select Geolocation
+				</button>
+		</form>
+    	<hr>
+   		<b>Geolocation:</b> <input type="string" id="mygeolocation" size="90">
     </div>
     <!-- The following script reads link parameters and sets the geolocation if "selectgeolocation.html" return one -->
     <script>
