@@ -1,6 +1,9 @@
 # Select a Geolocation with OpenLayers and CallBack
 Demo that creates a selector for a geolocation on a map by using [OpenLayers](https://www.openlayers.org). Geolocation Button allows to center map on current geolocation and callback url shows how to call this tool remotely and return the selected geolocation.
 
+## [Geolocation Select Demo](https://niebert.github.io/openlayer_selectlocation)
+
+
 ## Files of Demo
 This demo consists of two file stored in ___/docs___
 * ___index.html___ and
