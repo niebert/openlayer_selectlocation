@@ -1,0 +1,55 @@
+<!doctype html>
+  <head>
+    <title>Select Location - Callback HTML</title>
+    <meta charset="utf-8">
+  	<script src="js/linkparam.js"></script>
+  	  <style type="text/css"> 
+      body {font-family:verdana, sans-serif;} 
+    </style> 
+ 
+  </head>
+  <body>
+    <h2>Select Geolocation with OpenLayers and Callback URL</h2>
+  	<p>This is an example consists of two files.
+  	<ul>
+  		<li>
+  			<tt>index.html</tt> (this file)
+  		</li>
+  		<li>
+  			<tt>selectlocation.html</tt>
+  		</li>
+  	</ul>
+  	This file <tt>index.html</tt> calls <tt>selectlocation.html</tt> lets the user select a geolocation and <tt>selectlocation.html</tt> 
+  	returns the selected geolocation back to index.html if the user clicks on a the Map. 
+  	Press submit button "Select Geolocation" and look at your browser location (<a href="https://github.com/niebert/openlayer_selectlocation/archive/master.zip" target="_blank">Download Demo</a>).
+  	
+  	</p>
+  	<hr>
+  	<!-- next DIV element implements the main CallBack Structure -->
+  	<div style="margins:30px">
+   		<b>Geolocation:</b> <input type="string" id="mygeolocation" size="90">
+    	<hr>
+   		<b>Call <tt>selectlocation.html</tt> with a HTML form:</b>
+    	<form id="mapselector" action="selectlocation.html" method="GET">
+    		Callback URL: <input type="string" name="callback" value="index.html">
+    		<input type="submit" value="Select Geolocation">
+    	</form>
+    </div>
+    <!-- The following script reads link parameters and sets the geolocation if "selectgeolocation.html" return one -->
+    <script>
+      //---- Evaluate Link Paramaters ----
+      var vLinkParam = new LinkParam();
+      vLinkParam.init(document);
+      
+      // load geoloaction from LinkParameter if available 
+      if (vLinkParam.exists("geolocation")) {
+      	// Callback performed with LinkParameter geolocation
+        // e.g. index.html?geolocation=-12.213,65.123 
+      	document.getElementById("mygeolocation").value = vLinkParam.getValue("geolocation");
+      }; 		
+    </script>
+    <hr>
+     <b>GitHub:</b> View <a href="https://github.com/niebert/openlayer_selectlocation" target="_blank">repository on GitHub</a>
+    <hr>
+  </body>
+</html>
