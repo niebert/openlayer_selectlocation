@@ -20,6 +20,7 @@ function getZoom() {
 function saveGeolocation(pLocation) {
 	localStorage.setItem("mapcenter",pLocation);
 	localStorage.setItem("zoom",getZoom());
+	console.log("mapcenter="+pLocation+" and zoom="+getZoom()+" settings stored in LocalStorage");
 }
 
   
