@@ -4,7 +4,7 @@
     <!--
     	Call: selectlocation.html?callback=index.html
     	Assume selected geolocation is -1.81185,52.443141
-    	A click on the map will retrieve the location in OpenLayers Map and a 
+    	A click on the map will retrieve the location in OpenLayers Map and a
     	callback to "index.html" will be triggered e.g.
     	index.html?geolocation=-1.81185,52.443141
     -->
@@ -16,12 +16,13 @@
     <div id="map" class="map"></div>
     <br/>
     <div id="myposition"></div>
+    <div id="info" style="display: none;"></div>
     <script src="js/openlayers3.js"></script>
     <script src="js/locationselect.js"></script>
     <script src="js/linkparam.js"></script>
     <script>
-      
-     
+
+
       // Map Defaults
       var vMapCenter = [-1.81185, 52.443141];
       var vZoom = 6;
@@ -31,28 +32,34 @@
       } else {
       	 // load Map Center from Local Storage
        	 vMapCenter = getGeolocArray4String( localStorage.getItem("mapcenter") );
- 	  };
+ 	    };
+      if (localStorage.getItem("zoom") === null) {
+      	console.log("Map Zoom not saved in Local Storage of Browser")
+      } else {
+      	 // load Map Center from Local Storage
+       	 vZoom = parseInt( localStorage.getItem("zoom") );
+ 	    };
       //---- Link Paramaters ----
       var vLinkParam = new LinkParam();
       vLinkParam.init(document);
-      
-      // set Map Center from LinkParameter 
+
+      // set Map Center from LinkParameter
       if (vLinkParam.exists("mapcenter")) {
         // Overwrite Map Center with setting in LinkParameter
       	vMapCenter = getGeolocArray4String( LinkParam.getValue("mapcenter") );
-      }; 		
+      };
      if (vLinkParam.exists("zoom")) {
         // Overwrite Map Center with setting in LinkParameter
       	vZoom = parseInt( LinkParam.getValue("zoom") );
-      }; 		
-    	
+      };
+
       // Select OpenStreetMap as Map Layer
       var osm_default = new ol.layer.Tile({
         source: new ol.source.OSM()
       });
-	
-	
-	
+
+
+
 	  // Create Map with OSM Layer
       var map = new ol.Map({
         layers: [osm_default],
@@ -71,22 +78,23 @@
 	  });
 
 	  map.addControl(mousePosition);
-	  
+
 	  map.on('click', function(evt) {
   		var lonlat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
   		//var lon = lonlat[0];  // Longitude
   		//var lat = lonlat[1];  // Latitude
   		var vLonLat = lonlat[0] + ","+ lonlat[1];
-  		
+
   		// save selected location to localstorage
-  		saveGeolocation(vLonLat);
-  		
+  		saveGeolocation(vLonLat,getZoom());
+
   		if (vLinkParam.exists("callback")) {
   			var vLink = vLinkParam.getValue("callback");
+        vLinkParam.setValue("zoom",getZoom());
   			vLinkParam.deleteValue("callback");
   			vLinkParam.setValue("geolocation",vLonLat);
   			// send selected geolocation back to callback URL
-  			document.location.href = vLink + vLinkParam.getParam4URL();  			
+  			document.location.href = vLink + vLinkParam.getParam4URL();
   		} else {
   			console.log("No callback URL was set just show the selected geolocation in alert()-box");
   			alert("Selected Geolocation (Long,Lat): "+vLonLat+" Zoom:"+getZoom()+"\n\nNo callback URL set in Link Parameter");
