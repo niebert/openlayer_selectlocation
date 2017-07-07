@@ -4,12 +4,12 @@
     <meta charset="utf-8">
   	<script src="js/linkparam.js"></script>
   	<link  type="text/css" href="css/font-awesome.min.css" rel="stylesheet" />
-      <style type="text/css"> 
-      body {font-family:verdana, sans-serif;} 
-      
+      <style type="text/css">
+      body {font-family:verdana, sans-serif;}
+
       button {background-color:#42c5f4}
-       </style> 
- 
+       </style>
+
   </head>
   <body>
     <h2>Select Geolocation with OpenLayers and Callback URL</h2>
@@ -22,10 +22,10 @@
   			<tt>selectlocation.html</tt>
   		</li>
   	</ul>
-  	This file <tt>index.html</tt> calls <tt>selectlocation.html</tt> lets the user select a geolocation and <tt>selectlocation.html</tt> 
-  	returns the selected geolocation back to index.html if the user clicks on a the Map. 
+  	This file <tt>index.html</tt> calls <tt>selectlocation.html</tt> lets the user select a geolocation and <tt>selectlocation.html</tt>
+  	returns the selected geolocation back to index.html if the user clicks on a the Map.
   	Press submit button "Select Geolocation" and look at your browser location (<a href="https://github.com/niebert/openlayer_selectlocation/archive/master.zip" target="_blank">Download Demo</a>).
-  	
+
   	</p>
   	<hr>
   	<!-- next DIV element implements the main CallBack Structure -->
@@ -38,20 +38,29 @@
 				</button>
 		</form>
     	<hr>
-   		<b>Geolocation:</b> <input type="string" id="mygeolocation" size="90">
+      <b>Geolocation:</b> <input type="string" id="mygeolocation" size="80">
+      <b>Zoom:</b> <input type="string" id="myzoom" size="4">
     </div>
     <!-- The following script reads link parameters and sets the geolocation if "selectgeolocation.html" return one -->
     <script>
+      function el(id) {
+        return document.getElementById(id);
+      };
       //---- Evaluate Link Paramaters ----
       var vLinkParam = new LinkParam();
       vLinkParam.init(document);
-      
-      // load geoloaction from LinkParameter if available 
+
+      // load geoloaction from LinkParameter if available
       if (vLinkParam.exists("geolocation")) {
       	// Callback performed with LinkParameter geolocation
-        // e.g. index.html?geolocation=-12.213,65.123 
-      	document.getElementById("mygeolocation").value = vLinkParam.getValue("geolocation");
-      }; 		
+        // e.g. index.html?geolocation=-12.213,65.123
+      	el("mygeolocation").value = vLinkParam.getValue("geolocation");
+      };
+      if (vLinkParam.exists("zoom")) {
+      	// Callback performed with LinkParameter geolocation
+        // e.g. index.html?zoom=12 
+      	el("myzoom").value = vLinkParam.getValue("zoom");
+      };
     </script>
     <hr>
      <b>GitHub:</b> View <a href="https://github.com/niebert/openlayer_selectlocation" target="_blank">repository on GitHub</a>
