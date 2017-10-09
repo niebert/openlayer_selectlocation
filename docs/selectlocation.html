@@ -32,7 +32,7 @@
       	console.log("Map Center not saved in Local Storage of Browser")
       } else {
       	 // load Map Center from Local Storage
-       	 vMapCenter = getGeolocArray4String( localStorage.getItem("mapcenter") );
+       	 vMapCenter = getGeolocArray4String( localStorage.getItem("mapcenter") , vMapCenter);
  	    };
       if (localStorage.getItem("zoom") === null) {
       	console.log("Map Zoom not saved in Local Storage of Browser")

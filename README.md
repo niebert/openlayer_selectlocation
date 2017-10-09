@@ -21,3 +21,8 @@ ___index.html___ calls ___selectlocation.html___ and lets the user select a geol
 ### Demo
 * [Geolocation Select Demo](https://niebert.github.io/openlayer_selectlocation)
 * [Download Demo](https://github.com/niebert/openlayer_selectlocation/archive/master.zip) unzip file and checkout the subdirectory ___/docs___. The demo is stored in ___/docs___ because it is used at the same time as root directory for https://niebert.github.io/openlayer_selectlocation
+
+### See also
+* Open Layers - Display Markers with Popups on the Map [Demo Display Markers](https://niebert.github.io/openlayer_diplay_markers) - [Source Code](https://github.com/niebert/openlayer_diplay_markers) - [ZIP](https://github.com/niebert/openlayer_diplay_markers/archive/master.zip)
+* Mapper4SDG - [Demo](https://niebert.github.io/Mapper4SDG) - [Source Code](https://github.com/niebert/Mapper4SDG) - [ZIP](https://github.com/niebert/Mapper4SDG/archive/master.zip)  
+* [Mixare](https://www.mixare.org) is an Augemented Reality App, that allows to place digital content in a camera image. [Demo](https://niebert.github.io/Mixare4JSON) - [Source Code](https://github.com/niebert/Mixare4JSON) - [ZIP](https://github.com/niebert/Mixare4JSON/archive/master.zip)
