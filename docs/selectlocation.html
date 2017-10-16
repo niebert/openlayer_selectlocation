@@ -47,61 +47,63 @@
       // set Map Center from LinkParameter
       if (vLinkParam.exists("mapcenter")) {
         // Overwrite Map Center with setting in LinkParameter
-      	vMapCenter = getGeolocArray4String( LinkParam.getValue("mapcenter") );
+      	vMapCenter = getGeolocArray4String(vLinkParam.getValue("mapcenter") );
       };
      if (vLinkParam.exists("zoom")) {
         // Overwrite Map Center with setting in LinkParameter
-      	vZoom = parseInt( LinkParam.getValue("zoom") );
-      };
+      	vZoom = parseInt(vLinkParam.getValue("zoom") );
+    };
+    if (ol) {
+        // Select OpenStreetMap as Map Layer
+        var osm_default = new ol.layer.Tile({
+          source: new ol.source.OSM()
+        });
 
-      // Select OpenStreetMap as Map Layer
-      var osm_default = new ol.layer.Tile({
-        source: new ol.source.OSM()
-      });
+  	    // Create Map with OSM Layer
+        var map = new ol.Map({
+          layers: [osm_default],
+          target: 'map',
+          view: new ol.View({
+            center: ol.proj.transform(vMapCenter, 'EPSG:4326', 'EPSG:3857'),
+            zoom: vZoom
+          })
+        });
 
+        var mousePosition = new ol.control.MousePosition({
+  	    coordinateFormat: ol.coordinate.createStringXY(7),
+  	    projection: 'EPSG:4326',
+  	    target: document.getElementById('myposition'),
+  	    undefinedHTML: '&nbsp;'
+  	  });
 
+  	  map.addControl(mousePosition);
 
-	  // Create Map with OSM Layer
-      var map = new ol.Map({
-        layers: [osm_default],
-        target: 'map',
-        view: new ol.View({
-          center: ol.proj.transform(vMapCenter, 'EPSG:4326', 'EPSG:3857'),
-          zoom: vZoom
-        })
-      });
+  	  map.on('click', function(evt) {
+    		var lonlat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+    		//var lon = lonlat[0];  // Longitude
+    		//var lat = lonlat[1];  // Latitude
+    		var vLonLat = lonlat[0] + ","+ lonlat[1];
 
-      var mousePosition = new ol.control.MousePosition({
-	    coordinateFormat: ol.coordinate.createStringXY(7),
-	    projection: 'EPSG:4326',
-	    target: document.getElementById('myposition'),
-	    undefinedHTML: '&nbsp;'
-	  });
+    		// save selected location to localstorage
+    		saveGeolocation(vLonLat,getZoom());
 
-	  map.addControl(mousePosition);
+    		if (vLinkParam.exists("callback")) {
+    			var vLink = vLinkParam.getValue("callback");
+          vLinkParam.setValue("zoom",getZoom());
+    			vLinkParam.deleteValue("callback");
+    			vLinkParam.setValue("geolocation",vLonLat);
+    			// send selected geolocation back to callback URL
+    			document.location.href = vLink + vLinkParam.getParam4URL();
+    		} else {
+    			console.log("No callback URL was set just show the selected geolocation in alert()-box");
+    			alert("Selected Geolocation (Long,Lat): "+vLonLat+" Zoom:"+getZoom()+"\n\nNo callback URL set in Link Parameter");
+    		};
+    		//end: map.on('click'"
+  	  });
 
-	  map.on('click', function(evt) {
-  		var lonlat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
-  		//var lon = lonlat[0];  // Longitude
-  		//var lat = lonlat[1];  // Latitude
-  		var vLonLat = lonlat[0] + ","+ lonlat[1];
-
-  		// save selected location to localstorage
-  		saveGeolocation(vLonLat,getZoom());
-
-  		if (vLinkParam.exists("callback")) {
-  			var vLink = vLinkParam.getValue("callback");
-        vLinkParam.setValue("zoom",getZoom());
-  			vLinkParam.deleteValue("callback");
-  			vLinkParam.setValue("geolocation",vLonLat);
-  			// send selected geolocation back to callback URL
-  			document.location.href = vLink + vLinkParam.getParam4URL();
-  		} else {
-  			console.log("No callback URL was set just show the selected geolocation in alert()-box");
-  			alert("Selected Geolocation (Long,Lat): "+vLonLat+" Zoom:"+getZoom()+"\n\nNo callback URL set in Link Parameter");
-  		};
-  		//end: map.on('click'"
-	  });
+    }  else {
+        alert("ERROR: No Internet Access")
+    };
     </script>
   </body>
 </html>
